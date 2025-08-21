@@ -1,7 +1,7 @@
 #ifndef BST_H
 #define BST_H
 
-#ifdef TREE_VISUALIZATION_H
+#ifdef ENABLE_TREE_VISUALIZATION
 #include "../../visualization/tree_visual/tree_visualization.h"
 #endif
 
@@ -15,154 +15,138 @@
 #endif
 
 /**
-*@brief Class for BST tree.
-*/
+ *@brief Class for BST tree.
+ */
 template <typename T> class bst {
-    public:
+  public:
     /**
-    *@brief Contructor for BST tree class.
-    *@param __elements: you can directly pass a vector<T> so you don't have to do
-    *insert multiple times.
-    */
-    explicit bst(std::vector<T> _elements = {}) noexcept : root(nullptr) {
+     *@brief Contructor for BST tree class.
+     *@param __elements: you can directly pass a vector<T> so you don't have to do
+     *insert multiple times.
+     */
+    inline explicit bst(std::vector<T> _elements = {}) noexcept : root(nullptr) {
         if (!_elements.empty()) {
-            for (T &x : _elements) {
+            for (T& x : _elements) {
                 this->insert(x);
             }
         }
     }
 
     /**
-    * @brief Copy constructor for bst class
-    * @param b the tree we want to copy
-    */
-    explicit bst(const bst &b) : root(b.root), _size(b._size) {
-
-
-    }
+     * @brief Copy constructor for bst class
+     * @param b the tree we want to copy
+     */
+    inline explicit bst(const bst& b) : root(b.root), _size(b._size) {}
 
     /**
-    * @brief operator = for bst class
-    * @param b the tree we want to copy
-    * @return bst&
-    */
-    bst &operator=(const bst &b) {
+     * @brief operator = for bst class
+     * @param b the tree we want to copy
+     * @return bst&
+     */
+    inline bst& operator=(const bst& b) {
         root = b.root;
         _size = b._size;
         return *this;
     }
 
-    ~bst() noexcept { root = nullptr; }
+    inline ~bst() noexcept { root = nullptr; }
 
     /**
-    * @brief clear function
-    */
-    void clear() {
+     * @brief clear function
+     */
+    inline void clear() {
         root = nullptr;
         _size = 0;
     }
 
     /**
-    *@brief insert function.
-    *@param key: key to be inserted.
-    */
-    void insert(T key) {
+     *@brief insert function.
+     *@param key: key to be inserted.
+     */
+    inline void insert(T key) {
         root = _insert(root, key);
         _size++;
     }
 
     /**
-    *@brief search function.
-    *@param key: key to be searched.
-    *@returns true if the key exists in the tree.
-    */
-    bool search(T key) { return _search(root, key); }
+     *@brief search function.
+     *@param key: key to be searched.
+     *@returns true if the key exists in the tree.
+     */
+    inline bool search(T key) { return _search(root, key); }
 
     /**
-    *@brief remove function.
-    *@param key: key to be removed.
-    */
-    void remove(T key) {
-        root = _remove(root, key);
-        _size--;
-    }
+     *@brief remove function.
+     *@param key: key to be removed.
+     */
+    inline void remove(T key) { root = _remove(root, key); }
 
     class Iterator;
 
     /**
-    * @brief pointer that points to begin
-    *
-    * @return Iterator
-    */
-    Iterator begin() {
+     * @brief pointer that points to begin
+     *
+     * @return Iterator
+     */
+    inline Iterator begin() {
         std::vector<T> ino = this->inorder();
         return Iterator(0, ino);
     }
 
     /**
-    * @brief pointer that points to end
-    *
-    * @return Iterator
-    */
-    Iterator end() {
+     * @brief pointer that points to end
+     *
+     * @return Iterator
+     */
+    inline Iterator end() {
         std::vector<T> ino = this->inorder();
         return Iterator(ino.size(), ino);
     }
 
     /**
-    * @brief size function
-    *
-    * @return size_t the size of the tree
-    */
-    size_t size() { return _size; }
+     * @brief size function
+     *
+     * @return size_t the size of the tree
+     */
+    inline size_t size() { return _size; }
 
     /**
-    *@brief inorder function.
-    *@returns vector<T>, the elements inorder.
-    */
-    std::vector<T> inorder() {
+     *@brief inorder function.
+     *@returns vector<T>, the elements inorder.
+     */
+    inline std::vector<T> inorder() {
         std::vector<T> path;
-        _inorder(
-            [&](std::shared_ptr<node> callbacked) {
-                path.push_back(callbacked->info);
-            },
-            root);
+        _inorder([&](std::shared_ptr<node> callbacked) { path.push_back(callbacked->info); }, root);
         return path;
     }
 
     /**
-    *@brief preorder function.
-    *@returns vector<T>, the elements preorder.
-    */
-    std::vector<T> preorder() {
+     *@brief preorder function.
+     *@returns vector<T>, the elements preorder.
+     */
+    inline std::vector<T> preorder() {
         std::vector<T> path;
-        _preorder(
-            [&](std::shared_ptr<node> callbacked) {
-                path.push_back(callbacked->info);
-            },
-            root);
+        _preorder([&](std::shared_ptr<node> callbacked) { path.push_back(callbacked->info); },
+                  root);
         return path;
     }
 
     /**
-    *@brief postorder function.
-    *@returns vector<T>, the elements postorder.
-    */
-    std::vector<T> postorder() {
+     *@brief postorder function.
+     *@returns vector<T>, the elements postorder.
+     */
+    inline std::vector<T> postorder() {
         std::vector<T> path;
-        _postorder(
-            [&](std::shared_ptr<node> callbacked) {
-                path.push_back(callbacked->info);
-            },
-            root);
+        _postorder([&](std::shared_ptr<node> callbacked) { path.push_back(callbacked->info); },
+                   root);
         return path;
     }
 
     /**
-    * @brief level order function
-    * @return vector<vector<T>>, the level order traversal of the tree
-    */
-    std::vector<std::vector<T>> level_order() {
+     * @brief level order function
+     * @return vector<vector<T>>, the level order traversal of the tree
+     */
+    inline std::vector<std::vector<T>> level_order() {
         std::vector<std::vector<T>> path;
         std::queue<std::shared_ptr<node>> q;
         q.push(root);
@@ -186,39 +170,38 @@ template <typename T> class bst {
     }
 
     /**
-    *@brief visualize function
-    *@returns .dot file that can be previewed using graphviz in vscode.
-    */
-    #ifdef TREE_VISUALIZATION_H
-    void visualize() {
+     *@brief visualize function
+     *@returns .dot file that can be previewed using graphviz in vscode.
+     */
+#ifdef TREE_VISUALIZATION_H
+    inline void visualize() {
         std::string _generated = generate_visualization();
         tree_visualization::visualize(_generated);
     }
-    #endif
+#endif
 
     /**
-    * @brief operator << for bst class
-    */
-    friend std::ostream & operator << (std::ostream &out, bst<T> &t){
+     * @brief operator << for bst class
+     */
+    inline friend std::ostream& operator<<(std::ostream& out, bst<T>& t) {
         std::vector<T> order = t.inorder();
-        for(int i = 0; i<order.size(); i++){
-            if(i != order.size() - 1){
+        for (int i = 0; i < order.size(); i++) {
+            if (i != order.size() - 1) {
                 out << order[i] << ", ";
-            }
-            else{
+            } else {
                 out << order[i] << '\n';
             }
         }
         return out;
     }
 
-    private:
+  private:
     /**
-    *@brief Struct for the node type pointer.
-    *@param info: the value of the node.
-    *@param left: pointer to the left.
-    *@param right: pointer to the right.
-    */
+     *@brief Struct for the node type pointer.
+     *@param info: the value of the node.
+     *@param left: pointer to the left.
+     *@param right: pointer to the right.
+     */
     typedef struct node {
         T info;
         std::shared_ptr<node> right;
@@ -229,12 +212,12 @@ template <typename T> class bst {
     std::shared_ptr<node> root;
     size_t _size{};
 
-    std::shared_ptr<node> new_node(T &key) {
+    std::shared_ptr<node> new_node(T& key) {
         std::shared_ptr<node> p = std::make_shared<node>(key);
         return p;
     }
 
-    std::shared_ptr<node> _insert(std::shared_ptr<node> root, T &key) {
+    std::shared_ptr<node> _insert(std::shared_ptr<node> root, T& key) {
         if (!root) {
             return new_node(key);
         } else {
@@ -247,7 +230,7 @@ template <typename T> class bst {
         return root;
     }
 
-    bool _search(std::shared_ptr<node> root, T &key) {
+    bool _search(std::shared_ptr<node> root, T& key) {
         while (root) {
             if (root->info < key) {
                 root = root->right;
@@ -260,7 +243,7 @@ template <typename T> class bst {
         return false;
     }
 
-    std::shared_ptr<node> _remove(std::shared_ptr<node> root, T &key) {
+    std::shared_ptr<node> _remove(std::shared_ptr<node> root, T& key) {
         if (!root) {
             return root;
         }
@@ -272,11 +255,14 @@ template <typename T> class bst {
         } else {
             if (!root->left && !root->right) {
                 root = nullptr;
+                _size--;
             } else if (!root->left) {
                 std::shared_ptr<node> temp = root->right;
+                _size--;
                 return temp;
             } else if (!root->right) {
                 std::shared_ptr<node> temp = root->left;
+                _size--;
                 return temp;
             } else {
                 std::shared_ptr<node> temp = root->right;
@@ -290,105 +276,102 @@ template <typename T> class bst {
         return root;
     }
 
-    void _inorder(std::function<void(std::shared_ptr<node>)> callback,
-        std::shared_ptr<node> root) {
-            if (root) {
-                _inorder(callback, root->left);
-                callback(root);
-                _inorder(callback, root->right);
+    void _inorder(std::function<void(std::shared_ptr<node>)> callback, std::shared_ptr<node> root) {
+        if (root) {
+            _inorder(callback, root->left);
+            callback(root);
+            _inorder(callback, root->right);
+        }
+    }
+
+    void _postorder(std::function<void(std::shared_ptr<node>)> callback,
+                    std::shared_ptr<node> root) {
+        if (root) {
+            _postorder(callback, root->left);
+            _postorder(callback, root->right);
+            callback(root);
+        }
+    }
+
+    void _preorder(std::function<void(std::shared_ptr<node>)> callback,
+                   std::shared_ptr<node> root) {
+        if (root) {
+            callback(root);
+            _preorder(callback, root->left);
+            _preorder(callback, root->right);
+        }
+    }
+
+    std::string generate_visualization() {
+        std::string _generate = _inorder_gen(root);
+        return _generate;
+    }
+
+    std::string _inorder_gen(std::shared_ptr<node> root) {
+        std::string _s;
+        if (std::is_same_v<T, char> || std::is_same_v<T, std::string>) {
+            if (root->left) {
+                _s += root->info;
+                _s += "->";
+                _s += root->left->info;
+                _s += "\n";
+                _s += _inorder_gen(root->left);
+            }
+            if (root->right) {
+                _s += root->info;
+                _s += "->";
+                _s += root->right->info;
+                _s += "\n";
+                _s += _inorder_gen(root->right);
+            }
+        } else {
+            if (root->left) {
+                _s += std::to_string(root->info) + "->" + std::to_string(root->left->info) + "\n" +
+                      _inorder_gen(root->left);
+            }
+            if (root->right) {
+                _s += std::to_string(root->info) + "->" + std::to_string(root->right->info) + "\n" +
+                      _inorder_gen(root->right);
             }
         }
-
-        void _postorder(std::function<void(std::shared_ptr<node>)> callback,
-            std::shared_ptr<node> root) {
-                if (root) {
-                    _postorder(callback, root->left);
-                    _postorder(callback, root->right);
-                    callback(root);
-                }
-            }
-
-            void _preorder(std::function<void(std::shared_ptr<node>)> callback,
-                std::shared_ptr<node> root) {
-                    if (root) {
-                        callback(root);
-                        _preorder(callback, root->left);
-                        _preorder(callback, root->right);
-                    }
-                }
-
-                std::string generate_visualization() {
-                    std::string _generate = _inorder_gen(root);
-                    return _generate;
-                }
-
-                std::string _inorder_gen(std::shared_ptr<node> root) {
-                    std::string _s;
-                    if (std::is_same_v<T, char> || std::is_same_v<T, std::string>) {
-                        if (root->left) {
-                            _s += root->info;
-                            _s += "->";
-                            _s += root->left->info;
-                            _s += "\n";
-                            _s += _inorder_gen(root->left);
-                        }
-                        if (root->right) {
-                            _s += root->info;
-                            _s += "->";
-                            _s += root->right->info;
-                            _s += "\n";
-                            _s += _inorder_gen(root->right);
-                        }
-                    } else {
-                        if (root->left) {
-                            _s += std::to_string(root->info) + "->" +
-                                std::to_string(root->left->info) + "\n" +
-                                _inorder_gen(root->left);
-                        }
-                        if (root->right) {
-                            _s += std::to_string(root->info) + "->" +
-                                std::to_string(root->right->info) + "\n" +
-                                _inorder_gen(root->right);
-                        }
-                    }
-                    return _s;
-                }
+        return _s;
+    }
 };
 
 /**
-* @brief Iterator class
-*/
+ * @brief Iterator class
+ */
 template <typename T> class bst<T>::Iterator {
-    private:
+  private:
     std::vector<T> elements;
     int64_t index;
 
-    public:
+  public:
     /**
-    * @brief Construct a new Iterator object
-    *
-    * @param els vector<T> - the elements in inorder fashion
-    */
-    explicit Iterator(const int64_t &index, std::vector<T> &els) noexcept
-    : index(index), elements(els) {}
+     * @brief Construct a new Iterator object
+     *
+     * @param els vector<T> - the elements in inorder fashion
+     */
+    explicit Iterator(const int64_t& index, std::vector<T>& els) noexcept
+        : index(index), elements(els) {}
 
     /**
-    * @brief = operator for Iterator type
-    *
-    * @param index the current index
-    * @return Iterator&
-    */
-    Iterator &operator=(int64_t index) {
+     * @brief = operator for Iterator type
+     *
+     * @param index the current index
+     * @return Iterator&
+     */
+    Iterator& operator=(int64_t index) {
         this->index = index;
         return *(this);
     }
 
     /**
-    * @brief operator ++ for type Iterator
-    *
-    * @return Iterator&
-    */
-    Iterator &operator++() {
+     * @brief operator ++ for type Iterator
+     *
+     * @return Iterator&
+     */
+    Iterator& operator++() {
         if (this->index < elements.size()) {
             this->index++;
         }
@@ -396,10 +379,10 @@ template <typename T> class bst<T>::Iterator {
     }
 
     /**
-    * @brief operator ++ for type Iterator
-    *
-    * @return Iterator
-    */
+     * @brief operator ++ for type Iterator
+     *
+     * @return Iterator
+     */
     Iterator operator++(int) {
         Iterator it = *this;
         ++*(this);
@@ -407,11 +390,11 @@ template <typename T> class bst<T>::Iterator {
     }
 
     /**
-    * @brief operator -- for type Iterator
-    *
-    * @return Iterator&
-    */
-    Iterator &operator--() {
+     * @brief operator -- for type Iterator
+     *
+     * @return Iterator&
+     */
+    Iterator& operator--() {
         if (this->index > 0) {
             this->index--;
         }
@@ -419,10 +402,10 @@ template <typename T> class bst<T>::Iterator {
     }
 
     /**
-    * @brief operator -- for type Iterator
-    *
-    * @return Iterator
-    */
+     * @brief operator -- for type Iterator
+     *
+     * @return Iterator
+     */
     Iterator operator--(int) {
         Iterator it = *this;
         --*(this);
@@ -430,19 +413,19 @@ template <typename T> class bst<T>::Iterator {
     }
 
     /**
-    * @brief operator != for type Iterator
-    *
-    * @param it const Iterator
-    * @return true if index == it.index
-    * @return false otherwise
-    */
-    bool operator!=(const Iterator &it) { return index != it.index; }
+     * @brief operator != for type Iterator
+     *
+     * @param it const Iterator
+     * @return true if index == it.index
+     * @return false otherwise
+     */
+    bool operator!=(const Iterator& it) { return index != it.index; }
 
     /**
-    * @brief operator * for type Iterator
-    *
-    * @return T the value of the node
-    */
+     * @brief operator * for type Iterator
+     *
+     * @return T the value of the node
+     */
     T operator*() { return elements[index]; }
 };
 

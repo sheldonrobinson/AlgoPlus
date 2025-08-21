@@ -1,6 +1,6 @@
-## Algoplus{1.0.0}
+# Algoplus{1.0.0}
 
-AlgoPlus is a C++ library that includes ready-to-use complex **data structures** and **algorithms**.
+AlgoPlus is a C++ library that includes ready-to-use complex **data structures** and **algorithms** for various topics, including **Machine Learning** and **Image Processing**.
 
 <div align="center">
   <img src="https://github.com/CSRT-NTUA/AlgoPlus/blob/main/assets/logo.png" alt="Algoplus">
@@ -46,8 +46,8 @@ int main(){
 }
 
 
+#define ENABLE_GRAPH_VISUALIZATION
 #include "graph/graph.h"
-#include "visualization/graph_visualization.h"
 // And of course, every data structure that you need!
 int main(){
   weighted_graph<int> g("undirected");
@@ -62,8 +62,20 @@ int main(){
 }
 ```
 You can see more [examples](/examples) or follow the [Tutorials](/tutorial).
+> [!Note]
+> This repository is a set of implementations and not a complete library meant for production or research. So whenever you see a bug or something not working as it should, please report it to us and we will try our best to fix it.
 
 ### Classes
+
+**Machine Learning(NEW!)**
+- [X] [Clustering Algorithms](https://en.wikipedia.org/wiki/Cluster_analysis)
+- [X] [Encoders](https://en.wikipedia.org/wiki/Autoencoder)
+- [X] [Regression Algorithms](https://en.wikipedia.org/wiki/Regression_analysis)
+- [X] [Classification Algorithms](https://en.wikipedia.org/wiki/Classification)
+- [X] [Shortest Path Algorithms](https://en.wikipedia.org/wiki/Shortest_path_problem)
+- [X] [Image Processing Algorithms](https://en.wikipedia.org/wiki/Digital_image_processing)
+- [X] [Activation Functions](https://en.wikipedia.org/wiki/Activation_function)
+- [X] [Loss functions](https://en.wikipedia.org/wiki/Loss_function)
 
 **Graphs**
 - [X] [Di-Graph](https://en.wikipedia.org/wiki/Directed_graph)
@@ -80,7 +92,6 @@ You can see more [examples](/examples) or follow the [Tutorials](/tutorial).
 - [X] [Interval Tree](https://en.wikipedia.org/wiki/Interval_tree)
 - [X] [234 Tree](https://en.wikipedia.org/wiki/2%E2%80%933%E2%80%934_tree)
 - [X] [Min/Max Heap](https://en.wikipedia.org/wiki/Min-max_heap)
-- [X] [Rope(Chord)](https://en.wikipedia.org/wiki/Rope_(data_structure))
 
 **Lists**
 - [X] [Single Linked List](https://en.wikipedia.org/wiki/Linked_list)
@@ -103,13 +114,8 @@ You can see more [examples](/examples) or follow the [Tutorials](/tutorial).
 - [X] [Hash Table](https://en.wikipedia.org/wiki/Hash_table)
 - [X] [Range Minimum Query](https://en.wikipedia.org/wiki/Range_minimum_query#:~:text=In%20computer%20science%2C%20a%20range,common%20prefix%20problem%20(LCP).)
 
-**Machine Learning(NEW!)**
-- [X] [Clustering Algorithms](https://en.wikipedia.org/wiki/Cluster_analysis)
-- [X] [Encoders](https://en.wikipedia.org/wiki/Autoencoder)
-- [X] [Regression Algorithms](https://en.wikipedia.org/wiki/Regression_analysis)
-- [X] [Shortest Path Algorithms](https://en.wikipedia.org/wiki/Shortest_path_problem)
-- [X] [Image Processing Algorithms](https://en.wikipedia.org/wiki/Digital_image_processing)
-
+> [!Tip]
+> We are currently looking for contributions on machine learning classes and algorithms!
 
 ### **How to run test cases**
 We have unit tests for every function of our implemented algorithms & data structures. It is very important to make sure that your code works before making any pull requests!
@@ -131,6 +137,9 @@ cd build/tests
 ./runUnitTests
 ```
 
+> [!Note]
+> The splay tree's unit tests are failing in some OS's. We are working on a solution
+
 ### **Our contributors**
 <a href="https://github.com/spirosmaggioros/AlgoPlus/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=spirosmaggioros/AlgoPlus" />
@@ -147,6 +156,8 @@ cd build/tests
 
 4. **Promote** the repository on your local workshop/seminar and **get a shout-out**.
 
+**Please have in mind that this work is open source and free to use under the Apache 2.0 licence. Please feel free
+to cite the repo or our contributors for this work**.
 See more [here](.github/CONTRIBUTE/CONTRIBUTE.md).
 
 For any information or questions, please contact Spiros at **spirosmag@ieee.org**
